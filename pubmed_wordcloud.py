@@ -25,8 +25,8 @@ chrome_options.add_argument("--headless")
 browser = webdriver.Chrome(chromedriver,options=chrome_options)
 
 # start page for pubmed
-keyword = 'Yun-Kai Zhang'
-size = 50
+keyword = 'Lovly CM'
+size = 200
 url = 'https://pubmed.ncbi.nlm.nih.gov/?term={}&sort=date&size={}'.format(
 	keyword,size)
 browser.get(url)
@@ -72,5 +72,5 @@ wordcloud = WordCloud(
 
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
-plt.savefig('cloud.png',dpi=300)
+plt.savefig('Lovly_CM_cloud.png',dpi=300)
 
