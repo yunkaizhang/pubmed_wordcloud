@@ -16,6 +16,7 @@ import time
 from PIL import Image
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib.pyplot as plt
+import numpy as np
 # from lxml import etree
 
 # setup headless browser
@@ -26,7 +27,7 @@ browser = webdriver.Chrome(chromedriver,options=chrome_options)
 
 # start page for pubmed
 keyword = 'Lovly CM'
-size = 200
+size = 50
 url = 'https://pubmed.ncbi.nlm.nih.gov/?term={}&sort=date&size={}'.format(
 	keyword,size)
 browser.get(url)
@@ -60,15 +61,21 @@ stopwords = set(STOPWORDS)
 # stopwords.update(['osimertinib','treatment','patient',
 # 	'survival','NSCLC'])
 
+# use a picture to create a mask
+image_mask = Image.open('lung-pngrepo-com.png')
+mask = np.array(image_mask)
+image_colors = ImageColorGenerator(mask)
+
 wordcloud = WordCloud(
+	mask=mask,
+	color_func=image_colors,
 	width=800,
 	height=500,
-	max_font_size=100,
-	max_words=150,
+	max_font_size=30,
+	max_words=2000,
 	background_color='white',
 	collocations=False,
 	stopwords=stopwords).generate(abstract_text)
-
 
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')
